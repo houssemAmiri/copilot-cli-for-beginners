@@ -121,6 +121,15 @@ class BookCollection:
     def list_books(self) -> List[Book]:
         return list(self.books)
 
+    def list_by_year(self, start: int, end: int) -> List[Book]:
+        """Return books published between two years, inclusive."""
+        if not isinstance(start, int) or not isinstance(end, int):
+            raise TypeError("Start and end years must be integers.")
+        if start > end:
+            raise ValueError("Start year must be less than or equal to end year.")
+
+        return [book for book in self.books if start <= book.year <= end]
+
     def find_book_by_title(self, title: str) -> Optional[Book]:
         normalized_title = self._normalize_text(title)
         for book in self.books:

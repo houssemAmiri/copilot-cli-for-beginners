@@ -111,6 +111,24 @@ def test_filter_books_returns_all_books_without_criteria():
     assert [book.title for book in books] == ["Dune", "1984"]
 
 
+def test_list_by_year_includes_start_and_end_years():
+    collection = BookCollection()
+    collection.add_book("1984", "George Orwell", 1949)
+    collection.add_book("Dune", "Frank Herbert", 1965)
+    collection.add_book("Children of Dune", "Frank Herbert", 1976)
+
+    books = collection.list_by_year(1949, 1965)
+
+    assert [book.title for book in books] == ["1984", "Dune"]
+
+
+def test_list_by_year_rejects_invalid_range():
+    collection = BookCollection()
+
+    with pytest.raises(ValueError, match="Start year"):
+        collection.list_by_year(2000, 1999)
+
+
 def test_mark_read_command_marks_book(monkeypatch, capsys):
     collection = BookCollection()
     collection.add_book("Dune", "Frank Herbert", 1965)
