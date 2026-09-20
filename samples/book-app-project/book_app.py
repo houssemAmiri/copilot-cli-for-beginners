@@ -2,30 +2,16 @@ import sys
 from collections.abc import Callable
 
 from books import Book, BookCollection
+from utils import print_books
 
 
 # Global collection instance
 collection = BookCollection()
 
 
-def show_books(books: list[Book]) -> None:
-    """Display books in a user-friendly format."""
-    if not books:
-        print("No books found.")
-        return
-
-    print("\nYour Book Collection:\n")
-
-    for index, book in enumerate(books, start=1):
-        status = "✓" if book.read else " "
-        print(f"{index}. [{status}] {book.title} by {book.author} ({book.year})")
-
-    print()
-
-
 def handle_list() -> None:
     books = collection.list_books()
-    show_books(books)
+    print_books(books)
 
 
 def handle_add() -> None:
@@ -68,7 +54,7 @@ def handle_find() -> None:
     author = input("Author name: ").strip()
     books = collection.find_by_author(author)
 
-    show_books(books)
+    print_books(books)
 
 
 def handle_search() -> None:
@@ -79,7 +65,7 @@ def handle_search() -> None:
         print("\nSearch text cannot be empty.\n")
         return
 
-    show_books(collection.search(query))
+    print_books(collection.search(query))
 
 
 def handle_filter() -> None:
@@ -105,7 +91,7 @@ def handle_filter() -> None:
         author=author or None,
         year=year,
     )
-    show_books(books)
+    print_books(books)
 
 
 def show_help() -> None:

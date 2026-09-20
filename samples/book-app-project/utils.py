@@ -1,3 +1,6 @@
+from books import Book
+
+
 def print_menu():
     print("\n📚 Book Collection App")
     print("1. Add a book")
@@ -62,12 +65,16 @@ def get_book_details() -> tuple[str, str, int]:
     return title, author, year
 
 
-def print_books(books):
+def print_books(books: list[Book]) -> None:
+    """Display books in a user-friendly format."""
     if not books:
-        print("No books in your collection.")
+        print("No books found.")
         return
 
-    print("\nYour Books:")
+    print("\nYour Book Collection:\n")
+
     for index, book in enumerate(books, start=1):
-        status = "✅ Read" if book.read else "📖 Unread"
-        print(f"{index}. {book.title} by {book.author} ({book.year}) - {status}")
+        status = "✓" if book.read else " "
+        print(f"{index}. [{status}] {book.title} by {book.author} ({book.year})")
+
+    print()
