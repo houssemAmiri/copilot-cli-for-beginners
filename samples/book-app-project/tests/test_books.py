@@ -5,6 +5,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import pytest
 import books
 import book_app
+import utils
 from books import Book, BookCollection, get_book_statistics
 
 
@@ -203,6 +204,30 @@ def test_add_book_rejects_blank_title_and_author():
 def test_book_rejects_negative_year():
     with pytest.raises(ValueError, match="Year must be zero or greater"):
         Book("1984", "George Orwell", -1)
+
+
+def test_get_user_choice_rejects_empty_and_non_numeric_input(monkeypatch, capsys):
+    responses = iter(["", "abc", "3"])
+    monkeypatch.setattr("builtins.input", lambda _: next(responses))
+
+    choice = utils.get_user_choice()
+
+    captured = capsys.readouterr()
+    assert choice == "3"
+    assert "Please enter a number from 1 to 5." in captured.out
+    assert "Please enter a valid number from 1 to 5." in captured.out
+
+
+def test_get_book_details_rejects_empty_title_and_author(monkeypatch, capsys):
+    responses = iter(["", "Dune", "", "Frank Herbert", "1965"])
+    monkeypatch.setattr("builtins.input", lambda _: next(responses))
+
+    title, author, year = utils.get_book_details()
+
+    captured = capsys.readouterr()
+    assert (title, author, year) == ("Dune", "Frank Herbert", 1965)
+    assert "Title cannot be empty. Please try again." in captured.out
+    assert "Author cannot be empty. Please try again." in captured.out
 
 
 def test_get_book_statistics():
