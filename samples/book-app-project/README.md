@@ -3,13 +3,15 @@
 *(This README is intentionally rough so you can improve it with GitHub Copilot CLI)*
 
 A Python app for managing books you have or want to read.
-It can add, remove, and list books. Also mark them as read.
+It can add, remove, list, search, and filter books, and mark them as read.
 
 ---
 
 ## Current Features
 
 * Reads books from a JSON file (our database)
+* Searches titles and authors with case-insensitive partial matching
+* Filters by read status, author, and publication year
 * Input checking is weak in some areas
 * Some tests exist but probably not enough
 
@@ -32,8 +34,15 @@ python book_app.py list
 python book_app.py add
 python book_app.py find
 python book_app.py remove
+python book_app.py mark-read
+python book_app.py search
+python book_app.py filter
 python book_app.py help
 ```
+
+`search` looks for a word or phrase in a book title or author name.
+`filter` prompts for a read status (`all`, `read`, or `unread`) and optional
+author and publication year values.
 
 ## Running Tests
 
