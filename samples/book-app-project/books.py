@@ -131,7 +131,7 @@ class BookCollection:
         return [book for book in self.books if start <= book.year <= end]
 
     def find_book_by_title(self, title: str) -> Optional[Book]:
-        normalized_title = self._normalize_text(title)
+        normalized_title = Book._validate_text("title", title).lower()
         for book in self.books:
             if book.title.lower() == normalized_title:
                 return book

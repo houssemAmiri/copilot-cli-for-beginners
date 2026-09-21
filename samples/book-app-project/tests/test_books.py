@@ -219,6 +219,13 @@ def test_add_book_rejects_blank_title_and_author():
         collection.add_book("1984", "   ", 1949)
 
 
+def test_find_book_by_title_rejects_blank_title():
+    collection = BookCollection()
+
+    with pytest.raises(ValueError, match="title cannot be empty"):
+        collection.find_book_by_title("   ")
+
+
 def test_book_rejects_negative_year():
     with pytest.raises(ValueError, match="Year must be zero or greater"):
         Book("1984", "George Orwell", -1)
